@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Imóvel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-md mx-auto bg-white min-h-screen shadow-xl">
+        <div class="bg-slate-900 px-6 pt-12 pb-8 rounded-b-[2.5rem]">
+            <div class="flex items-center gap-4">
+                <a href="{% url 'core:painel_proprietario' %}" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h2 class="text-xl font-bold text-white">Novo Imóvel</h2>
+                    <p class="text-slate-400 text-sm">Cadastre um novo imóvel</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {% for field in form %}
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="w-full bg-emerald-500 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-plus mr-2"></i> Cadastrar Imóvel
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

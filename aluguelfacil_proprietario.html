@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluguel Fácil - Painel do Proprietário</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; scroll-behavior: smooth; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex justify-center">
+
+    <!-- Container centralizado simulando App (Max-width para mobile/tablet) -->
+    <div class="w-full max-w-md bg-white shadow-2xl relative overflow-x-hidden min-h-screen">
+
+        <!-- ==========================================
+             VIEW 1: TELA DE LOGIN DO PROPRIETÁRIO
+             ========================================== -->
+        <div id="login-view" class="min-h-screen flex flex-col bg-slate-900 relative">
+            
+            <!-- Efeitos de Fundo -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -ml-20 -mb-20"></div>
+
+            <div class="flex-1 flex flex-col justify-center px-8 relative z-10">
+                
+                <!-- Logo / Cabeçalho -->
+                <div class="mb-10 text-center">
+                    <div class="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/30">
+                        <i class="fa-solid fa-building-user text-3xl text-white"></i>
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-white mb-2">Área do Dono</h1>
+                    <p class="text-slate-400">Gerencie seus recebíveis de forma automática.</p>
+                </div>
+
+                <!-- Formulário de Login (Atualizado com Senha) -->
+                <div class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700/50">
+                    
+                    <!-- Campo E-mail -->
+                    <div class="mb-4">
+                        <label class="block text-slate-300 text-sm font-medium mb-2">E-mail</label>
+                        <div class="relative">
+                            <i class="fa-regular fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                            <input type="email" id="email-input" placeholder="seu@email.com" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition placeholder-slate-600">
+                        </div>
+                    </div>
+
+                    <!-- Campo Senha -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-slate-300 text-sm font-medium">Senha</label>
+                            <a href="#" class="text-xs text-emerald-500 hover:text-emerald-400 transition">Esqueceu?</a>
+                        </div>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500"></i>
+                            <input type="password" id="senha-input" placeholder="••••••••" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-10 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition placeholder-slate-600">
+                            <!-- Botão de mostrar/ocultar senha (visual) -->
+                            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-slate-300 transition">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Botão Entrar -->
+                    <button onclick="simulateLogin()" id="btn-login" class="w-full bg-emerald-500 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/20 mb-2 flex items-center justify-center">
+                        Entrar <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+                    </button>
+                    
+                </div>
+
+            </div>
+            
+            <div class="pb-8 text-center relative z-10">
+                <p class="text-slate-600 text-xs">Aluguel Fácil PropTech &copy; 2026</p>
+            </div>
+        </div>
+
+
+        <!-- ==========================================
+             VIEW 2: DASHBOARD DO PROPRIETÁRIO
+             ========================================== -->
+        <div id="dashboard-view" class="hidden min-h-screen bg-slate-50 pb-10">
+            
+            <!-- Header do Proprietário -->
+            <div class="bg-slate-900 px-6 pt-12 pb-20 rounded-b-[2.5rem] shadow-lg relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
+                
+                <div class="flex justify-between items-center relative z-10">
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Visão Geral</p>
+                        <h2 class="text-2xl font-bold text-white">Olá, Carlos</h2>
+                    </div>
+                    <button onclick="logout()" class="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full text-white flex items-center justify-center hover:bg-white/20 transition border border-white/10">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-5 -mt-14 relative z-20">
+                
+                <!-- Card de Resumo Financeiro Mensal -->
+                <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800">Recebimentos de Maio</h3>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full"><i class="fa-regular fa-calendar mr-1"></i> Mês Atual</span>
+                    </div>
+                    
+                    <!-- Valor Total Recebido -->
+                    <p class="text-slate-500 text-sm mb-1">Total Confirmado via PIX</p>
+                    <div class="text-4xl font-extrabold text-emerald-600 mb-6">
+                        <span class="text-xl font-medium mr-1 text-emerald-400">R$</span>2.500,00
+                    </div>
+
+                    <!-- Progresso Financeiro -->
+                    <div class="flex justify-between text-xs text-slate-500 mb-2 font-medium">
+                        <span>Recebido: R$ 2.500 (1/2)</span>
+                        <span class="text-orange-500">A receber: R$ 1.800</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 mb-2">
+                        <div class="bg-emerald-500 h-2 rounded-full" style="width: 58%"></div>
+                    </div>
+                </div>
+
+                <!-- Lista de Inquilinos / Imóveis -->
+                <div class="flex justify-between items-end mb-4 px-1">
+                    <h3 class="font-bold text-lg text-slate-800">Seus Imóveis</h3>
+                    <button class="text-emerald-600 text-sm font-semibold hover:underline"><i class="fa-solid fa-plus mr-1"></i> Novo</button>
+                </div>
+
+                <div class="space-y-4">
+                    
+                    <!-- Imóvel 1: Pago -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h4 class="font-bold text-slate-800">Apto 402 - R. das Flores</h4>
+                                <p class="text-xs text-slate-500 mt-1"><i class="fa-regular fa-user mr-1"></i> João Inquilino</p>
+                            </div>
+                            <!-- Badge Status -->
+                            <div class="bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-1 rounded text-xs font-bold flex items-center">
+                                <i class="fa-solid fa-check-circle mr-1"></i> Pago
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center pt-3 border-t border-slate-50">
+                            <p class="text-sm font-bold text-slate-700">R$ 2.500,00</p>
+                            <button class="text-slate-400 hover:text-emerald-600 transition"><i class="fa-solid fa-file-invoice"></i> Ver Recibo</button>
+                        </div>
+                    </div>
+
+                    <!-- Imóvel 2: Pendente -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h4 class="font-bold text-slate-800">Casa 05 - Cond. Ipês</h4>
+                                <p class="text-xs text-slate-500 mt-1"><i class="fa-regular fa-user mr-1"></i> Maria Silva</p>
+                            </div>
+                            <!-- Badge Status -->
+                            <div class="bg-orange-50 text-orange-600 border border-orange-100 px-2 py-1 rounded text-xs font-bold flex items-center">
+                                <i class="fa-regular fa-clock mr-1"></i> Pendente
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center pt-3 border-t border-slate-50">
+                            <p class="text-sm font-bold text-slate-700">R$ 1.800,00 <span class="text-xs text-slate-400 font-normal ml-1">Vence dia 20</span></p>
+                            <button class="text-slate-500 hover:text-orange-600 transition text-sm font-medium"><i class="fa-brands fa-whatsapp mr-1"></i> Cobrar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Atalhos Rápidos -->
+                <h3 class="font-bold text-lg text-slate-800 mb-4 ml-1 mt-8">Ações Rápidas</h3>
+                <div class="grid grid-cols-2 gap-3 mb-8">
+                    <button class="bg-slate-900 text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-qrcode text-2xl mb-2 text-emerald-400"></i>
+                        <span class="text-xs font-medium">Gerar PIX Avulso</span>
+                    </button>
+                    <button class="bg-white border border-slate-200 text-slate-700 p-4 rounded-xl shadow-sm flex flex-col items-center justify-center hover:bg-slate-50 transition">
+                        <i class="fa-regular fa-file-lines text-2xl mb-2 text-slate-400"></i>
+                        <span class="text-xs font-medium">Contratos</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Simulação do botão de Login com Senha
+        function simulateLogin() {
+            const btn = document.getElementById('btn-login');
+            const originalText = btn.innerHTML;
+            
+            // Verifica se os campos estão preenchidos (apenas simulação)
+            const email = document.getElementById('email-input').value;
+            const senha = document.getElementById('senha-input').value;
+
+            if (!email || !senha) {
+                alert("Por favor, preencha e-mail e senha para fins de teste.");
+                return;
+            }
+
+            // Inicia animação de loading
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+
+            // Simula o tempo de requisição ao servidor
+            setTimeout(() => {
+                login(); // Chama a função que troca as telas
+                
+                // Restaura o botão após o login para quando o usuário deslogar
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80');
+                    // Limpa os campos de senha
+                    document.getElementById('senha-input').value = '';
+                }, 500);
+
+            }, 800);
+        }
+
+        // Função que altera a visualização das telas
+        function login() {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        // Função de Logout
+        function logout() {
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('login-view').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Casa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-md mx-auto min-h-screen relative overflow-x-hidden">
+        {% if aluguel and pagamento %}
+        <div class="bg-slate-900 px-6 pt-12 pb-8 rounded-b-[2.5rem] shadow-lg relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
+            <div class="flex justify-between items-center mb-6 relative z-10">
+                <div>
+                    <p class="text-slate-400 text-sm mb-1">Painel do Inquilino</p>
+                    <h2 class="text-2xl font-bold text-white">Olá, {{ user.username }}</h2>
+                </div>
+                <a href="{% url 'accounts:logout' %}" class="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 border border-white/10">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+            <div class="inline-flex items-center bg-white/10 px-3 py-1.5 rounded-full relative z-10 border border-white/10">
+                <i class="fa-solid fa-location-dot text-emerald-400 mr-2 text-sm"></i>
+                <span class="text-white text-sm font-medium">{{ aluguel.imovel.nome }}</span>
+            </div>
+        </div>
+
+        <div class="px-5 -mt-6 relative z-20">
+            <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                            <i class="fa-regular fa-calendar text-slate-500 text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">{{ mes }} / {{ pagamento.ano }}</h3>
+                    </div>
+                    <span class="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1.5 rounded-full border border-orange-200">Vence dia {{ pagamento.data_vencimento.day }}</span>
+                </div>
+
+                <div class="text-4xl font-extrabold text-slate-900 mb-6">
+                    <span class="text-xl font-medium text-slate-400 mr-1">R$</span>{{ pagamento.valor|floatformat:2 }}
+                </div>
+
+                {% if pagamento.status == 'pendente' %}
+                <a href="{% url 'core:pagar_pix' pagamento.id %}" class="w-full bg-emerald-500 text-white font-bold py-4 rounded-2xl flex items-center justify-center hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/30">
+                    <i class="fa-brands fa-pix mr-2 text-xl"></i> Pagar Agora via PIX
+                </a>
+                {% else %}
+                <div class="w-full bg-emerald-50 text-emerald-700 font-bold py-4 rounded-2xl flex items-center justify-center border border-emerald-200">
+                    <i class="fa-solid fa-check-circle mr-2 text-xl"></i> Pago em {{ pagamento.data_pagamento|date:"d/m/Y H:i" }}
+                </div>
+                {% endif %}
+            </div>
+
+            {% if aluguel.imovel.wifi_ssid %}
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-wifi text-xl text-blue-500"></i>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Wi-Fi</p>
+                    <p class="text-sm font-bold text-slate-800">{{ aluguel.imovel.wifi_ssid }}</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-file-pdf text-xl text-purple-500"></i>
+                    </div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Regras</p>
+                    <p class="text-sm font-bold text-purple-600 cursor-pointer hover:underline">Baixar PDF</p>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if pagamentos_anteriores %}
+            <h3 class="font-bold text-lg text-slate-800 mb-4 ml-1">Últimos Pagamentos</h3>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-5">
+                {% for p in pagamentos_anteriores %}
+                <div class="flex justify-between items-center p-4 border-b border-slate-50">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-slate-800">{{ p.mes }}/{{ p.ano }}</p>
+                            <p class="text-xs text-slate-400">{{ p.data_pagamento|date:"d/m/Y" }}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% else %}
+        <div class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+            <i class="fa-solid fa-house-circle-exclamation text-6xl text-slate-300 mb-6"></i>
+            <h2 class="text-2xl font-bold text-slate-700 mb-2">Nenhum imóvel vinculado</h2>
+            <p class="text-slate-500">Você ainda não foi vinculado a nenhum imóvel. Aguarde o proprietário fazer a associação.</p>
+            <a href="{% url 'accounts:logout' %}" class="mt-8 text-slate-400 hover:text-slate-600">Sair</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

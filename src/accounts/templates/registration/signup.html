@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluguel Fácil - Cadastro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-sm">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/30">
+                <i class="fa-solid fa-user-plus text-3xl text-white"></i>
+            </div>
+            <h1 class="text-2xl font-extrabold text-white">Criar Conta</h1>
+            <p class="text-slate-400 text-sm mt-1">Inquilino — morador</p>
+        </div>
+
+        <form method="post" class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700/50">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-xl text-red-300 text-sm">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}<p>{{ error }}</p>{% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <label class="block text-slate-300 text-sm font-medium mb-2">Usuário</label>
+                <div class="relative">
+                    <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="text" name="username" placeholder="Escolha um nome de usuário" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 placeholder-slate-600">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-slate-300 text-sm font-medium mb-2">E-mail</label>
+                <div class="relative">
+                    <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="email" name="email" placeholder="seu@email.com" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 placeholder-slate-600">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-slate-300 text-sm font-medium mb-2">Senha</label>
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="password" name="password1" placeholder="••••••••" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 placeholder-slate-600">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-slate-300 text-sm font-medium mb-2">Confirmar Senha</label>
+                <div class="relative">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="password" name="password2" placeholder="Repita a senha" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 placeholder-slate-600">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-500 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/20 flex items-center justify-center">
+                Cadastrar <i class="fa-solid fa-user-check ml-2"></i>
+            </button>
+
+            <p class="text-center text-slate-500 text-sm mt-4">
+                Já tem conta?
+                <a href="{% url 'accounts:login' %}" class="text-emerald-500 hover:text-emerald-400 font-medium">Entrar</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

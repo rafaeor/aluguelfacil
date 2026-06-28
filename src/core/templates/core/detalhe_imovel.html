@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ imovel.nome }} - Aluguel Fácil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; scroll-behavior: smooth; }
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        .animate-bounce-subtle { animation: bounce-subtle 2s infinite; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased max-w-md mx-auto bg-slate-900 shadow-2xl min-h-screen relative overflow-x-hidden">
+    <div class="pb-10 bg-white">
+        <div class="relative h-screen w-full">
+            <img src="{{ imovel.foto_url|default:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop' }}" alt="{{ imovel.nome }}" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80"></div>
+            <div class="absolute top-6 left-6 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-bold px-4 py-2 rounded-full uppercase tracking-widest shadow-lg">
+                Disponível para Locação
+            </div>
+            <div class="absolute bottom-12 left-0 right-0 px-6 text-center text-white">
+                <h1 class="text-4xl font-extrabold mb-2 drop-shadow-lg">{{ imovel.nome }}</h1>
+                <p class="text-lg font-light drop-shadow-md mb-8">{{ imovel.endereco }}</p>
+                <a href="#detalhes" class="inline-flex flex-col items-center text-white/80 hover:text-white transition">
+                    <span class="text-sm uppercase tracking-widest mb-2 font-medium">Ver Valores</span>
+                    <i class="fa-solid fa-chevron-down text-2xl animate-bounce-subtle"></i>
+                </a>
+            </div>
+        </div>
+
+        <div id="detalhes" class="px-6 pt-10 pb-6 bg-white relative z-10 -mt-4 rounded-t-3xl">
+            <div class="flex items-end justify-between mb-8 border-b border-slate-100 pb-6">
+                <div>
+                    <p class="text-slate-500 text-sm font-medium uppercase tracking-wide mb-1">Aluguel Mensal</p>
+                    <div class="text-4xl font-extrabold text-emerald-600">
+                        R$ {{ imovel.valor_aluguel|floatformat:0 }}<span class="text-lg font-normal text-slate-500">/mês</span>
+                    </div>
+                </div>
+                {% if imovel.valor_condominio %}
+                <div class="text-right">
+                    <p class="text-slate-400 text-xs mb-1">Condomínio</p>
+                    <p class="text-slate-700 font-semibold">R$ {{ imovel.valor_condominio|floatformat:0 }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="flex gap-3 mb-8">
+                {% if imovel.area %}
+                <div class="bg-slate-50 p-3 rounded-2xl flex-1 text-center border border-slate-100">
+                    <i class="fa-solid fa-ruler-combined text-emerald-500 mb-2 block text-xl"></i>
+                    <span class="text-sm font-bold text-slate-700">{{ imovel.area }}m²</span>
+                </div>
+                {% endif %}
+                {% if imovel.quartos %}
+                <div class="bg-slate-50 p-3 rounded-2xl flex-1 text-center border border-slate-100">
+                    <i class="fa-solid fa-bed text-emerald-500 mb-2 block text-xl"></i>
+                    <span class="text-sm font-bold text-slate-700">{{ imovel.quartos }} Quartos</span>
+                </div>
+                {% endif %}
+                {% if imovel.vagas %}
+                <div class="bg-slate-50 p-3 rounded-2xl flex-1 text-center border border-slate-100">
+                    <i class="fa-solid fa-car text-emerald-500 mb-2 block text-xl"></i>
+                    <span class="text-sm font-bold text-slate-700">{{ imovel.vagas }} Vaga{{ imovel.vagas|pluralize:"s" }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if imovel.descricao %}
+            <h3 class="font-bold text-xl mb-3 text-slate-900">Sobre o espaço</h3>
+            <p class="text-slate-600 text-base leading-relaxed mb-6">{{ imovel.descricao }}</p>
+            {% endif %}
+
+            <ul class="space-y-3 mb-8">
+                <li class="flex items-center text-slate-600"><i class="fa-solid fa-check text-emerald-500 mr-3"></i> Direto com o proprietário</li>
+                <li class="flex items-center text-slate-600"><i class="fa-solid fa-check text-emerald-500 mr-3"></i> Pagamento simplificado via PIX</li>
+                <li class="flex items-center text-slate-600"><i class="fa-solid fa-check text-emerald-500 mr-3"></i> Sem fiador (Caução de 2 meses)</li>
+            </ul>
+
+            <div class="mt-8 pt-8 border-t border-slate-100 pb-2">
+                <a href="https://wa.me/{{ imovel.proprietario.whatsapp|default:"5511999999999" }}?text=Olá! Tenho interesse no imóvel {{ imovel.nome }}" target="_blank" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-slate-800 transition shadow-lg shadow-slate-900/20 flex items-center justify-center text-lg">
+                    <i class="fa-brands fa-whatsapp mr-3 text-2xl text-emerald-400"></i> Falar com o Proprietário
+                </a>
+                <p class="text-center text-slate-400 text-xs mt-4">Tire suas dúvidas ou agende uma visita diretamente com o dono.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

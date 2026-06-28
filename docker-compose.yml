@@ -28,9 +28,7 @@ services:
     depends_on:
       - aluguelfacil-db
     networks:
-      #      - caddy
       - aluguelfacil-backend
-    #      - monitoring
     security_opt:
       - no-new-privileges:true
 
@@ -38,9 +36,4 @@ volumes:
   postgres_sql:
 
 networks:
-  #  caddy:
-  #    external: true
   aluguelfacil-backend:
-#    external: true
-#  monitoring:
-#    external: true

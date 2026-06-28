@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%^b0odhr^e6-x+-42ruf9v$4zge8z%2!$dhm5_q=y-cejj^oco
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALGUEL_ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -127,3 +127,5 @@ STATIC_URL = 'static/'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/auth/login/'
+
+CSRF_TRUSTED_ORIGINS = os.environ.get('ALGUEL_CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
